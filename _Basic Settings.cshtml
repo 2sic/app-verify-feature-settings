@@ -10,6 +10,17 @@ Test on top for debuging:
   Settings.SetDebug(true);
 }
 
+<h1>Tests</h1>
+
+<ol>
+  <li><a href='@Link.To(parameters: "webresources/true")'>Web Resources</a></li>
+  <li><a href='@Link.To(parameters: "images/true")'>Images</a></li>
+</ol>
+
+<h3>Todo: split into more isolated files for better testing</h3>
+
+
+
 Images (override): @Settings.Images.News.Quality <br>
 
 Lightbox (fallback) quality: @Settings.Images.Lightbox.Quality
@@ -73,22 +84,7 @@ Lightbox (fallback) quality: @Settings.Images.Lightbox.Quality
         <li>    @part.EntityTitle </li>
     }
     </ol>
-    
-    <hr>
-    <h3>WebResources</h3>
-    @foreach(var res in Settings.WebResources.Items) {
-        <li>@res.EntityTitle [@res.Enable] (@res.Html)</li>
-    }
-    </ol>
-
-    <h3>Images</h3>
-    @foreach(var img in Settings.Images.Items) {
-        <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
-    }
-    </ol>
-
-
-
+  
 
 <hr>
     <h1>Global file</h1>
@@ -123,9 +119,9 @@ Lightbox (fallback) quality: @Settings.Images.Lightbox.Quality
     
     SomethingThatDoesntExist: @viewResources.Xyz | @App.Resources.Xyz | @Resources.Xyz <br>
 
-    Things (Entities): @(viewResources.Things.Count) | ... | @Resources.Things.Count --- Title: @Resources.Things.EntityTitle <br>
+    @* Things (Entities): @(viewResources.Things.Count) | ... | @Resources.Things.Count --- Title: @Resources.Things.EntityTitle <br>
     
-    ThingsAtBothLevels : @(viewResources.ThingsAtBothLevels.Count) | @App.Resources.ThingsAtBothLevels.Count | @Resources.ThingsAtBothLevels.Count --- Title: @Resources.ThingsAtBothLevels.EntityTitle
+    ThingsAtBothLevels : @(viewResources.ThingsAtBothLevels.Count) | @App.Resources.ThingsAtBothLevels.Count | @Resources.ThingsAtBothLevels.Count --- Title: @Resources.ThingsAtBothLevels.EntityTitle *@
     
     <hr>
     

@@ -1,0 +1,25 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using DotNetNuke.Framework.JavaScriptLibraries;
+@using DotNetNuke.Framework;
+@using System.Linq;
+
+@using ToSic.Sxc.Data;
+
+<div @Edit.TagToolbar(Content)>
+  <h1>Settings.Images</h1>
+
+  <h2>Resources from Settings.Images (list depends on overloads)</h2>
+  <ol>
+    @foreach(var img in Settings.Images.Items) {
+        <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
+    }
+  </ol>
+
+  <h2>Resources from Settings[PresetSystem].Images (list depends on overloads)</h2>
+  <ol>
+    @foreach(var img in Settings.GetSource("PresetSystem").Images.Items) {
+        <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
+    }
+  </ol>
+
+</div>

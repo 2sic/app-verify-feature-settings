@@ -1,0 +1,27 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using DotNetNuke.Framework.JavaScriptLibraries;
+@using DotNetNuke.Framework;
+@using System.Linq;
+
+@using ToSic.Sxc.Data;
+
+
+<div @Edit.TagToolbar(Content)>
+   
+  <h1>Settings.WebResources</h1>
+
+  <h2>Resources from Settings.WebResources (list depends on overloads)</h2>
+  <ol>
+    @foreach(var res in Settings.WebResources.Items) {
+        <li>@res.EntityTitle [@res.Enable] (@res.Html)</li>
+    }
+  </ol>
+
+  <h2>Resources from Settings[PresetSystem].WebResources</h2>
+  <ol>
+    @foreach(var res in Settings.GetSource("PresetSystem").WebResources.Items) {
+        <li>@res.EntityTitle [@res.Enable] (@res.Html)</li>
+    }
+  </ol>
+
+</div>
