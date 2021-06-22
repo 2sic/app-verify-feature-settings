@@ -2,24 +2,68 @@
 @using DotNetNuke.Framework.JavaScriptLibraries;
 @using DotNetNuke.Framework;
 @using System.Linq;
-
 @using ToSic.Sxc.Data;
-
+@{
+  Settings.SetDebug(true);
+}
 <div @Edit.TagToolbar(Content)>
   <h1>Settings.Images</h1>
 
+  <h2>Get Images.Lightbox infos (only Quality set on App SystemSettings)</h2>
+  @ShowImageSettings(Settings.Images.Lightbox, "Lightbox", 2000, 1500, 70)
+
+
+  <h2>Get Images.News infos (overwritten on App SystemSettings)</h2>
+  @ShowImageSettings(Settings.Images.News, "News", 222, 111, 77)
+
+
+  <h2>Get Images.Content infos (overwritten on App SystemSettings)</h2>
+  @* @try { *@
+    @ShowImageSettings(Settings.Images.Content, "Content", 555, 222, 33)
+  @* } catch {
+    <h1>error</h1>
+  } *@
+
+  <h2>Get Images.Screen infos (from Default)</h2>
+  @* @try { *@
+    @ShowImageSettings(Settings.Images.Screen, "Screen", 2000, 1500, 60)
+  @* } catch {
+    <h1>error</h1>
+  } *@
+
   <h2>Resources from Settings.Images (list depends on overloads)</h2>
-  <ol>
-    @foreach(var img in Settings.Images.Items) {
-        <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
-    }
-  </ol>
+  @try{
+    <ol>
+      @foreach(var img in Settings.Images.Items) {
+          <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
+      }
+    </ol>
+  } catch {
+    <h1>error</h1>
+  }
 
   <h2>Resources from Settings[PresetSystem].Images (list depends on overloads)</h2>
-  <ol>
-    @foreach(var img in Settings.GetSource("PresetSystem").Images.Items) {
-        <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
-    }
-  </ol>
+  @try{
+    <ol>
+      @foreach(var img in Settings.GetSource("PresetSystem").Images.Items) {
+          <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
+      }
+    </ol>
+  } catch {
+    <h1>error</h1>
+  }
 
 </div>
+
+@helper ShowImageSettings(dynamic imgSettings, string expTitle, int expWidth, int expHeight, int expQuality) {
+  <ul>
+    <li>Name: @imgSettings.EntityTitle (@expTitle)</li>
+    <li>Width: @imgSettings.Width @ShowNumOk(imgSettings.Width, expWidth)</li>
+    <li>Height: @imgSettings.Height @ShowNumOk(imgSettings.Height, expHeight)</li>
+    <li>Quality: @imgSettings.Quality @ShowNumOk(imgSettings.Quality, expQuality)</li>
+  </ul>
+}
+
+@helper ShowNumOk(dynamic found, int expected) {
+  <text>@((found == expected) ? "✅" : "⚠️ " + expected)  </text>
+}
