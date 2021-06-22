@@ -1,0 +1,38 @@
+
+@Content.Title
+
+
+@Content.Toolbar
+
+@{
+    var pics = AsAdam(Content, "Pics");
+    var bad = AsAdam(Content, "bad");
+    var CAPS = AsAdam(Content, "PICS");
+}
+<div>
+
+    @Content.Pics
+    <h2>pcs</h2>
+    <div>
+        Root: @pics.Root <br />
+        Exists: @pics.Exists <br />
+        Files: @pics.Files.Count <br />
+        Folders: @pics.Folders.Count <br/>
+        Files in Folder: @pics.Folders[0].Files.Count <br/>
+    </div>
+    <h2>bad</h2>
+    <div>
+        Root: @bad.Root <br/>
+        Exists: @bad.Exists <br/>
+        Files: @bad.Files.Count <br/>
+        Folders: @bad.Folders.Count <br/>
+    </div>
+
+    <h2>CAPS</h2>
+    <div>
+        Root: @CAPS.Root <br />
+        Exists: @CAPS.Exists <br />
+        Files: @CAPS.Files.Count <br />
+        Folders: @CAPS.Folders.Count <br />
+    </div>
+</div>

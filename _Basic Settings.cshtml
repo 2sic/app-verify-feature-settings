@@ -1,0 +1,185 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using DotNetNuke.Framework.JavaScriptLibraries;
+@using DotNetNuke.Framework;
+@using System.Linq;
+
+@using ToSic.Sxc.Data;
+
+Test on top for debuging:
+@{
+  Settings.SetDebug(true);
+}
+
+Images (override): @Settings.Images.News.Quality <br>
+
+Lightbox (fallback) quality: @Settings.Images.Lightbox.Quality
+
+
+
+<div @Edit.TagToolbar(Content)>
+    <h1>Retest AppSettings</h1>
+    App.Settings.Title: @App.Settings.Title <br>
+    <h1>Test global settings</h1>
+    @{
+    
+        var globSet = ToSic.Eav.Configuration.Global.SystemSettings;
+        var dynSet = AsDynamic(globSet);
+        Settings.SetDebug(true);
+    }
+    
+    Settings: "@globSet" (should be IEntity) | "@dynSet" (should be IDynamicEntity) | @dynSet.EntityId | @dynSet.GoogleMaps <br>
+
+    Google Maps: @dynSet.GoogleMaps.Count | @dynSet.GoogleMaps.SettingsIdentifier | @dynSet.GoogleMaps.InitialZoom <br>
+    
+    Settings GoogleMaps: @Settings.GoogleMaps <br>
+    
+
+
+    Settings Zoom: @Settings.GoogleMaps.InitialZoom <br>
+    Settings ApiKey: @Settings.GoogleMaps.ApiKey <br>
+
+    Show warning: @Settings.GoogleMaps.ShowApiKeyWarning <br>
+    
+    <hr>
+    
+    SiteColor from SiteSettings: @Settings.SiteColor
+    
+    <hr>
+    <h2>QuickEdit</h2>
+    
+    Settings.QuickEdit: @Settings.QuickEdit <br>
+    Settings.QuickEdit.Items: @Settings.QuickEdit.Items <br>
+
+    Settings.QuickEdit.Items.Move (of Default): @Settings.QuickEdit.Items.Move <br>
+    
+    Settings.QuickEdit.InnerContentDynamic: @Settings.QuickEdit.InnerContentDynamic <br>
+    Settings.QuickEdit.InnerContentDynamic.Enable: @Settings.QuickEdit.InnerContentDynamic.Enable <br>
+
+    Settings.QuickEdit.Default: @Settings.QuickEdit.Default <br>
+    Settings.QuickEdit.Default.Enable: @Settings.QuickEdit.Default.Enable <br>
+    
+    Settings.QuickEdit.InnerContentDynamic.Move: @Settings.QuickEdit.InnerContentDynamic.Move <br>
+    
+    <hr>
+    <h3>Foreach Test using property</h3>
+    <ol>
+    @foreach(var part in Settings.QuickEdit.Items) {
+        <li>    @part.EntityTitle </li>
+    }
+    </ol>
+    <h3>Foreach Test using AsList</h3>
+    <ol>
+    @foreach(var part in AsList(Settings.QuickEdit.Items)) {
+        <li>    @part.EntityTitle </li>
+    }
+    </ol>
+    
+    <hr>
+    <h3>WebResources</h3>
+    @foreach(var res in Settings.WebResources.Items) {
+        <li>@res.EntityTitle [@res.Enable] (@res.Html)</li>
+    }
+    </ol>
+
+    <h3>Images</h3>
+    @foreach(var img in Settings.Images.Items) {
+        <li>@img.EntityTitle (Width: @img.Width, Height: @img.Height, Quality: @img.Quality)</li>
+    }
+    </ol>
+
+
+
+
+<hr>
+    <h1>Global file</h1>
+    Test setting headers
+    
+    @{
+      var page = GetService<ToSic.Sxc.Web.IPageService>();
+      page.Activate("jQuery", "turnOn");
+      
+      // page.SetHttpStatus(404, "blog post not found");
+
+      var viewResources = Resources.GetSource("view");
+      var appResources = Resources.GetSource("app");
+      
+      ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
+      
+      JavaScript.RequestRegistration(CommonJs.jQuery);
+    }
+    
+    <h2>Top tests to debug</h2>
+    
+    VTAF: @viewResources.BoolVTAF | @appResources.BoolVTAF | @Resources.BoolVTAF <br>
+
+    
+    <h2>Basic tests</h2>
+
+    AppButton: @viewResources.AppButton | @App.Resources.AppButton | @Resources.AppButton <br>
+    
+    SomeButton: @viewResources.SomeButton | @App.Resources.SomeButton | @Resources.SomeButton <br>
+    
+    ButtonOnAppAndView: @viewResources.ButtonOnAppAndView | @App.Resources.ButtonOnAppAndView | @Resources.ButtonOnAppAndView <br>
+    
+    SomethingThatDoesntExist: @viewResources.Xyz | @App.Resources.Xyz | @Resources.Xyz <br>
+
+    Things (Entities): @(viewResources.Things.Count) | ... | @Resources.Things.Count --- Title: @Resources.Things.EntityTitle <br>
+    
+    ThingsAtBothLevels : @(viewResources.ThingsAtBothLevels.Count) | @App.Resources.ThingsAtBothLevels.Count | @Resources.ThingsAtBothLevels.Count --- Title: @Resources.ThingsAtBothLevels.EntityTitle
+    
+    <hr>
+    
+    <h2>View Resources</h2>
+    
+    Object: "@viewResources" <br>
+    
+    ButtonOnAppAndView: "@viewResources.ButtonOnAppAndView" <br>
+    
+    <h2>App Resources</h2>
+    
+    ButtonOnAppAndView: "@appResources.ButtonOnAppAndView" <br>
+
+    <hr>
+    
+    <h2>Build stack</h2>
+    
+    @{
+      var json = "{ \"PropNum\": 27}";
+      var dynJson = AsDynamic(json);
+      var dynStack = AsDynamic(viewResources, dynJson);
+    }
+
+    PropNum: @dynJson.propNum | @dynStack.propNum <br>
+    
+    SomeButton: @dynJson.SomeButton | @dynStack.SomeButton <br>
+    
+    <hr>
+    <h2>Booleans </h2>
+    
+    BoolView: @viewResources.BoolView | @appResources.BoolView | @Resources.BoolView <br>
+    BoolViewNull: @viewResources.BoolViewNull | @appResources.BoolViewNull | @Resources.BoolViewNull <br>
+
+    BoolBoth: @viewResources.BoolBoth | @appResources.BoolBoth | @Resources.BoolBoth <br>
+    BoolBothNull:@viewResources.BoolBothNull | @appResources.BoolBothNull | @Resources.BoolBothNull <br>
+
+    BoolViewTrue: @viewResources.BoolViewTrue | @appResources.BoolViewTrue | @Resources.BoolViewTrue <br>
+    BoolViewFalse: @viewResources.BoolViewFalse | @appResources.BoolViewFalse | @Resources.BoolViewFalse <br>
+    
+    BoolApp: @viewResources.BoolApp | @appResources.BoolApp | @Resources.BoolApp <br>
+    
+    <hr>
+    
+    VTAT: @viewResources.BoolVTAT | @appResources.BoolVTAT | @Resources.BoolVTAT <br>
+    VTAF: @viewResources.BoolVTAF | @appResources.BoolVTAF | @Resources.BoolVTAF <br>
+    VTAN: @viewResources.BoolVTAN | @appResources.BoolVTAN | @Resources.BoolVTAN <br>
+    
+    VFAT: @viewResources.BoolVFAT | @appResources.BoolVFAT | @Resources.BoolVFAT <br>
+    VFAF: @viewResources.BoolVFAF | @appResources.BoolVFAF | @Resources.BoolVFAF <br>
+    VFAN: @viewResources.BoolVFAN | @appResources.BoolVFAN | @Resources.BoolVFAN <br>
+
+    VNAT: @viewResources.BoolVNAT | @appResources.BoolVNAT | @Resources.BoolVNAT <br>
+    VNAF: @viewResources.BoolVNAF | @appResources.BoolVNAF | @Resources.BoolVNAF <br>
+    VNAN: @viewResources.BoolVNAN | @appResources.BoolVNAN | @Resources.BoolVNAN <br>
+
+    
+</div>
