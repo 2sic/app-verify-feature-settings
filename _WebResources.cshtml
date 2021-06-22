@@ -2,12 +2,12 @@
 @using DotNetNuke.Framework.JavaScriptLibraries;
 @using DotNetNuke.Framework;
 @using System.Linq;
-
 @using ToSic.Sxc.Data;
 
+@{ Settings.SetDebug(true); }
 
 <div @Edit.TagToolbar(Content)>
-   
+  <a href="@Link.To()">&lt; back</a>
   <h1>Settings.WebResources</h1>
 
   <h2>Resources from Settings.WebResources (list depends on overloads)</h2>
@@ -17,11 +17,11 @@
     }
   </ol>
 
-  <h2>Resources from Settings[PresetSystem].WebResources</h2>
+  @* <h2>Resources from Settings[PresetSystem].WebResources</h2>
   <ol>
     @foreach(var res in Settings.GetSource("PresetSystem").WebResources.Items) {
         <li>@res.EntityTitle [@res.Enable] (@res.Html)</li>
     }
-  </ol>
+  </ol> *@
 
 </div>

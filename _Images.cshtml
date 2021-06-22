@@ -3,10 +3,11 @@
 @using DotNetNuke.Framework;
 @using System.Linq;
 @using ToSic.Sxc.Data;
-@{
-  Settings.SetDebug(true);
-}
+
+@{ Settings.SetDebug(true); }
+
 <div @Edit.TagToolbar(Content)>
+  <a href="@Link.To()">&lt; back</a>
   <h1>Settings.Images</h1>
 
   <h2>Get Images.Lightbox infos (only Quality set on App SystemSettings)</h2>
