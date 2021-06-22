@@ -1,0 +1,111 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using DotNetNuke.Framework.JavaScriptLibraries;
+@using DotNetNuke.Framework;
+@using System.Linq;
+@using ToSic.Sxc.Data;
+
+@{ Settings.SetDebug(true); }
+
+<div @Edit.TagToolbar(Content)>
+  <a href="@Link.To()">&lt; back</a>
+  <h1>View / App Settings and Fallbacks </h1>
+
+
+    <h1>Retest AppSettings</h1>
+    App.Settings.Title: @App.Settings.Title <br>
+    <h1>Test global settings</h1>
+    @{
+    
+        var globSet = ToSic.Eav.Configuration.Global.SystemSettings;
+        var dynSet = AsDynamic(globSet);
+        Settings.SetDebug(true);
+    }
+    
+    Settings: "@globSet" (should be IEntity) | "@dynSet" (should be IDynamicEntity) | @dynSet.EntityId | @dynSet.GoogleMaps <br>
+
+    
+    <hr>
+    
+    SiteColor from SiteSettings: @Settings.SiteColor
+      
+
+<hr>
+    <h1>Global file</h1>
+    Test setting headers
+    
+    @{
+      var viewResources = Resources.GetSource("view");
+      var appResources = Resources.GetSource("app");      
+    }
+
+    
+    <h2>Basic tests</h2>
+
+    AppButton: @viewResources.AppButton | @App.Resources.AppButton | @Resources.AppButton <br>
+    
+    SomeButton: @viewResources.SomeButton | @App.Resources.SomeButton | @Resources.SomeButton <br>
+    
+    ButtonOnAppAndView: @viewResources.ButtonOnAppAndView | @App.Resources.ButtonOnAppAndView | @Resources.ButtonOnAppAndView <br>
+    
+    SomethingThatDoesntExist: @viewResources.Xyz | @App.Resources.Xyz | @Resources.Xyz <br>
+
+    @* Things (Entities): @(viewResources.Things.Count) | ... | @Resources.Things.Count --- Title: @Resources.Things.EntityTitle <br>
+    
+    ThingsAtBothLevels : @(viewResources.ThingsAtBothLevels.Count) | @App.Resources.ThingsAtBothLevels.Count | @Resources.ThingsAtBothLevels.Count --- Title: @Resources.ThingsAtBothLevels.EntityTitle *@
+    
+    <hr>
+    
+    <h2>View Resources</h2>
+    
+    Object: "@viewResources" <br>
+    
+    ButtonOnAppAndView: "@viewResources.ButtonOnAppAndView" <br>
+    
+    <h2>App Resources</h2>
+    
+    ButtonOnAppAndView: "@appResources.ButtonOnAppAndView" <br>
+
+    <hr>
+    
+    <h2>Build stack</h2>
+    
+    @{
+      var json = "{ \"PropNum\": 27}";
+      var dynJson = AsDynamic(json);
+      var dynStack = AsDynamic(viewResources, dynJson);
+    }
+
+    PropNum: @dynJson.propNum | @dynStack.propNum <br>
+    
+    SomeButton: @dynJson.SomeButton | @dynStack.SomeButton <br>
+    
+    <hr>
+    <h2>Booleans </h2>
+    
+    BoolView: @viewResources.BoolView | @appResources.BoolView | @Resources.BoolView <br>
+    BoolViewNull: @viewResources.BoolViewNull | @appResources.BoolViewNull | @Resources.BoolViewNull <br>
+
+    BoolBoth: @viewResources.BoolBoth | @appResources.BoolBoth | @Resources.BoolBoth <br>
+    BoolBothNull:@viewResources.BoolBothNull | @appResources.BoolBothNull | @Resources.BoolBothNull <br>
+
+    BoolViewTrue: @viewResources.BoolViewTrue | @appResources.BoolViewTrue | @Resources.BoolViewTrue <br>
+    BoolViewFalse: @viewResources.BoolViewFalse | @appResources.BoolViewFalse | @Resources.BoolViewFalse <br>
+    
+    BoolApp: @viewResources.BoolApp | @appResources.BoolApp | @Resources.BoolApp <br>
+    
+    <hr>
+    
+    VTAT: @viewResources.BoolVTAT | @appResources.BoolVTAT | @Resources.BoolVTAT <br>
+    VTAF: @viewResources.BoolVTAF | @appResources.BoolVTAF | @Resources.BoolVTAF <br>
+    VTAN: @viewResources.BoolVTAN | @appResources.BoolVTAN | @Resources.BoolVTAN <br>
+    
+    VFAT: @viewResources.BoolVFAT | @appResources.BoolVFAT | @Resources.BoolVFAT <br>
+    VFAF: @viewResources.BoolVFAF | @appResources.BoolVFAF | @Resources.BoolVFAF <br>
+    VFAN: @viewResources.BoolVFAN | @appResources.BoolVFAN | @Resources.BoolVFAN <br>
+
+    VNAT: @viewResources.BoolVNAT | @appResources.BoolVNAT | @Resources.BoolVNAT <br>
+    VNAF: @viewResources.BoolVNAF | @appResources.BoolVNAF | @Resources.BoolVNAF <br>
+    VNAN: @viewResources.BoolVNAN | @appResources.BoolVNAN | @Resources.BoolVNAN <br>
+
+    
+</div>
