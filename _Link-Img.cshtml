@@ -1,0 +1,58 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using DotNetNuke.Framework.JavaScriptLibraries;
+@using DotNetNuke.Framework;
+@using System.Linq;
+@using ToSic.Sxc.Data;
+@using System;
+
+@{ Settings.SetDebug(true); }
+
+<div @Edit.TagToolbar(Content)>
+  <a href="@Link.To()">&lt; back</a>
+  <h1>Link IMG</h1>
+
+@{
+  int zeroAsInt;
+  var x = Int32.TryParse(null, out zeroAsInt);
+
+}
+Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2) <br>
+
+Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2, height: (false ? (int?)0 : null)) <br>
+
+@zeroAsInt <br>
+
+basic: @Link.Image(url: "test.jpg", width: 250, height: 700.0, quality: 75.2) <br>
+
+Umlauts etc.: @Link.Image(url: "Küchen Helfer.jpg", width: 250, height: 700.0, quality: 75.2) <br>
+
+<h2>Lightbox</h2>
+
+Settings Lightbox: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox) <br>
+
+Settings Lightbox Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, factor: 2) <br>
+
+Settings Lightbox height 0: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, height: 0) <br>
+
+Settings Lightbox height 400: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, height: 400) <br>
+
+Settings Lightbox Factor 0.75: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, factor: 0.75) <br>
+
+<h2>Screen</h2>
+
+Settings : @Link.Image(url: "test.jpg", settings: Settings.Images.Screen) <br>
+
+Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2) <br>
+
+Settings  Factor 0.75: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 0.75) <br>
+
+<h2>Try height 0</h2>
+
+
+
+<hr>
+
+
+
+
+</div>
