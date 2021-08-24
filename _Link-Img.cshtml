@@ -4,55 +4,101 @@
 @using System.Linq;
 @using ToSic.Sxc.Data;
 @using System;
+@{
+  // Settings.SetDebug(true);
 
-@{ Settings.SetDebug(true); }
+  int zeroAsInt;
+  var x = Int32.TryParse(null, out zeroAsInt);
+}
+@{ Link.SetDebug(true); }
+Priority: @Link.Image(url: "test.jpg", settings: Settings.Images.Content, factor: 1)
+@{ Link.SetDebug(false); }
 
 <div @Edit.TagToolbar(Content)>
   <a href="@Link.To()">&lt; back</a>
   <h1>Link IMG</h1>
+  
+  Settings  Factor 2 / h 0: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2, height: (true ? (int?)0 : null)) <br>
 
-@{
-  int zeroAsInt;
-  var x = Int32.TryParse(null, out zeroAsInt);
+  @zeroAsInt <br>
 
+  basic: @Link.Image(url: "test.jpg", width: 250, height: 700.0, quality: 75.2) <br>
+
+  Umlauts etc.: @Link.Image(url: "Küchen Helfer.jpg", width: 250, height: 700.0, quality: 75.2) <br>
+
+  @CalculateImageLinks("Content (Overriden by App-Settings)", Settings.Images.Content)
+
+  @CalculateImageLinks("Content (Global Image Content Settings)", Settings.GetSource("PresetSystem").Images.Content)
+
+@helper CalculateImageLinks(string title, dynamic imgSettings) {
+  <hr>
+  <h2>@title</h2>
+  <ol>
+    <li>
+      Standard: @Link.Image(url: "test.jpg", settings: imgSettings)
+    </li>
+    <li>
+      Factor 1: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 1)
+    </li>
+    <li>
+      @{ Link.SetDebug(true); }
+      Factor 2: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 2)
+      @{ Link.SetDebug(false); }
+    </li>
+    <li>
+      Factor 3: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 3)
+    </li>
+    <li>
+      Factor 1/2: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 1f/2)
+    </li>
+    <li>
+      Factor 1/3: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 1f/3)
+    </li>
+    <li>
+      height 0: @Link.Image(url: "test.jpg", settings: imgSettings, height: 0)
+    </li>
+    <li>
+      height 400: @Link.Image(url: "test.jpg", settings: imgSettings, height: 400)
+    </li>
+    <li>
+      0.75: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 0.75)
+    </li>
+  </ol>
 }
-Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2) <br>
-
-Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2, height: (false ? (int?)0 : null)) <br>
-
-@zeroAsInt <br>
-
-basic: @Link.Image(url: "test.jpg", width: 250, height: 700.0, quality: 75.2) <br>
-
-Umlauts etc.: @Link.Image(url: "Küchen Helfer.jpg", width: 250, height: 700.0, quality: 75.2) <br>
-
-<h2>Lightbox</h2>
-
-Settings Lightbox: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox) <br>
-
-Settings Lightbox Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, factor: 2) <br>
-
-Settings Lightbox height 0: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, height: 0) <br>
-
-Settings Lightbox height 400: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, height: 400) <br>
-
-Settings Lightbox Factor 0.75: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, factor: 0.75) <br>
-
-<h2>Screen</h2>
-
-Settings : @Link.Image(url: "test.jpg", settings: Settings.Images.Screen) <br>
-
-Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2) <br>
-
-Settings  Factor 0.75: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 0.75) <br>
-
-<h2>Try height 0</h2>
 
 
+  <hr>
+  <h2>Lightbox</h2>
+
+  Settings Lightbox: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox) <br>
+
+  Settings Lightbox Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, factor: 2) <br>
+
+  Settings Lightbox height 0: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, height: 0) <br>
+
+  Settings Lightbox height 400: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, height: 400) <br>
+
+  Settings Lightbox Factor 0.75: @Link.Image(url: "test.jpg", settings: Settings.Images.Lightbox, factor: 0.75) <br>
+
+  <hr>
+  <h2>Screen</h2>
+
+  Settings : @Link.Image(url: "test.jpg", settings: Settings.Images.Screen) <br>
+
+  Settings  Factor 2: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2) <br>
+
+  Settings  Factor 0.75: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 0.75) <br>
+<hr>
+  Settings  Factor 2 / h null: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2, height: (false ? (int?)0 : null)) <br>
+  Settings  Factor 2 / h 0: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2, height: (true ? (int?)0 : null)) <br>
+
+  Settings  Factor 2 / w 0: @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, factor: 2, width: 0) <br>
 
 <hr>
+  Settings scale xyz (invalid): @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, scaleMode: "xyz") <br>
+  Settings scale up : @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, scaleMode: "up") <br>
+  Settings scale max (invalid) : @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, scaleMode: "max") <br>
 
-
-
+  Settings resize crop : @Link.Image(url: "test.jpg", settings: Settings.Images.Screen, resizeMode: "pad") <br>
 
 </div>
