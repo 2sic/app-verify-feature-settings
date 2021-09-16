@@ -1,0 +1,80 @@
+@inherits ToSic.Sxc.Dnn.RazorComponent
+@using Newtonsoft.Json
+@using ToSic.Sxc.Data;
+
+<div @Edit.TagToolbar(Content)>
+    
+  <h2>Dynamic JSON</h2>
+
+@{
+  var test = AsDynamic("{ \"first\": 27, \"inner\" : { \"sub\": 24, \"deeper\": { \"subsub\": [24, 52, 423]}}, \"last\": 12}");
+
+  var asDyn = AsDynamic(test);
+
+  var asText = JsonConvert.SerializeObject(asDyn);
+}
+  
+  first: @asDyn.first </br>
+  inner: @asDyn.inner.sub
+
+  <hr>
+  @asText
+
+
+  <hr>
+  With ToString():
+  @asDyn.ToString();
+
+  <h2>Property Dump</h2>
+  @{
+    var dump = asDyn._Dump(null /* new string[] { "en-us"} */, "Dynamic",  null);
+
+  }
+  <ol>
+    @foreach (var prop in dump) {
+      <li>
+        @prop.Path: @prop.Property.Result (@prop.SourceName)
+      </li>
+    }
+  </ol>
+
+  <h2>Property Dump of merge</h2>
+  @{
+    var mixin = new {
+      Mixin1 = 27,
+      Mixin2 = "Some String",
+      last = "last on Mixin",
+      SubMixin = new {
+        Subtrue = true,
+        Subfalse = false,
+        SubThing = "thing"
+      },
+      SubJson = AsDynamic("{\"JsonKey\": 523, \"JsonTrue\": true }")
+    };
+
+    var realDynMixin = AsDynamic(mixin);
+
+    var dynMixin = AsDynamic(JsonConvert.SerializeObject(mixin));
+    var stack = AsDynamic(asDyn, realDynMixin); // dynMixin);
+    var stackDump = stack._Dump(null, "Something", null);
+  }
+  <h3>Test new AsDynamic Read operation</h3>
+  <ol>
+    <li>Existing value Mixin1: @realDynMixin.Mixin1</li>
+    <li>Existing value incorrectly spelled: @realDynMixin.mixin1</li>
+    <li>Existing string on Mixin2: @realDynMixin.mixin2</li>
+    <li>Non-existing property: @realDynMixin.something</li>
+  </ol>
+
+  <h3>Loop properties</h3>
+  <ol>
+    @foreach (var prop in stackDump) {
+      <li>
+        @prop.Path: @prop.Property.Result (@prop.SourceName)
+      </li>
+    }
+  </ol>
+
+  <h2>Json dump of dynamic Read Object</h2>
+  @JsonConvert.SerializeObject(realDynMixin)
+</div>

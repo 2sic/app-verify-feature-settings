@@ -4,31 +4,86 @@
 @using System.Linq;
 @using ToSic.Sxc.Data;
 
-@{ Settings.SetDebug(true); }
+@{ Settings.SetDebug(false); }
 
-<h1>Tests</h1>
+<h1 @Edit.Toolbar()>Tests</h1>
 
 <ol>
   <li><a href='@Link.To(parameters: "webresources/true")'>Web Resources</a></li>
   <li><a href='@Link.To(parameters: "images/true")'>Images</a></li>
   <li><a href='@Link.To(parameters: "viewapp/true")'>View-App Stuff</a></li>
   <li><a href='@Link.To(parameters: "linkimg/true")'>Link IMG Stuff</a></li>
+  <li><a href='@Link.To(parameters: "dynjson/true")'>Dynamic Json stuff</a></li>
 </ol>
 
 <h3>Todo: split into more isolated files for better testing</h3>
+
+<h2>Test page service activate</h2>
+@{
+  var pageService = GetService<ToSic.Sxc.Web.IPageService>();
+  pageService.Activate("fancybox4");
+  pageService.Activate("fancybox4");
+  // pageService.Activate("fancybox4");
+}
 
 <hr>
 
 test
 @{
-  var siteEmpty = Settings.GetSource("Site");
 
+  var resDump = Resources._Dump(null /* new string[] { "en-us"} */, null,  null);
+
+
+  var viewGuid = (CmsContext.View as ToSic.Sxc.Blocks.CmsView).UnwrappedContents.Guid;
+  var dynEnt = Settings.GetSource("PresetSystem");
+
+  var fullDump = Settings._Dump(null /* new string[] { "en-us"} */, null,  null);
+
+
+  var presetDump = dynEnt._Dump(new string[] { "en-us"}, null,  null);
 }
 
-@siteEmpty.x / @siteEmpty.EntityId
+<h2>Settings Dump</h2>
+
+<script>
+  function getStack(target, part) {
+    var sxc = $2sxc(target);
+    part = part || "Settings";
+    sxc.webApi.get('admin/app/getstack?appId=1388&part=' + part + '&view=@viewGuid').then(function(data) {
+      console.log('got data', data);
+    });
+  }
+  function getStackKey(target, key) {
+    var sxc = $2sxc(target);
+    sxc.webApi.get('admin/app/getstack?appId=1388&part=Settings&key=' + key).then(function(data) {
+      console.log('got data', data);
+    });
+  }
+
+</script>
+
+<a onclick="getStack(this)">Load Settings in js</a> - 
+<a onclick="getStack(this, 'Resources')">Load Resources in js</a>
+
+<ol>
+  @foreach (var prop in fullDump) {
+    <li>
+      @prop.Path: @prop.Property.Result (@prop.SourceName)
+      <a onclick='getStackKey(this, "@prop.Path")'>get more details</a>
+    </li>
+  }
+</ol>
+
+@{
+  return;
+}
 
 <hr>
+View guid: @viewGuid
+<br>
+EntityId of missing Site-Settings @Settings.GetSource("Site").EntityId
 
+<hr>
 
 
 Images (override): @Settings.Images.News.Quality <br>
