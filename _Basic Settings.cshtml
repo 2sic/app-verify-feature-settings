@@ -1,4 +1,4 @@
-@inherits ToSic.Sxc.Dnn.RazorComponent
+@inherits Custom.Dnn.Razor12
 @using DotNetNuke.Framework.JavaScriptLibraries;
 @using DotNetNuke.Framework;
 @using System.Linq;
@@ -34,7 +34,7 @@ test
   var resDump = Resources._Dump(null /* new string[] { "en-us"} */, null,  null);
 
 
-  var viewGuid = (CmsContext.View as ToSic.Sxc.Blocks.CmsView).UnwrappedContents.Guid;
+  var viewGuid = (CmsContext.View as ToSic.Eav.Data.Wrapper<ToSic.Sxc.Blocks.IView>).GetContents().Guid;
   var dynEnt = Settings.GetSource("PresetSystem");
 
   var fullDump = Settings._Dump(null /* new string[] { "en-us"} */, null,  null);
@@ -93,12 +93,14 @@ Lightbox (fallback) quality: @Settings.Images.Lightbox.Quality
 
 
 <div @Edit.TagToolbar(Content)>
-    <h1>Retest AppSettings</h1>
+    <h1>Re-Test AppSettings</h1>
     App.Settings.Title: @App.Settings.Title <br>
     <h1>Test global settings</h1>
     @{
+        var appStates = GetService<ToSic.Eav.Apps.IAppStates>();
+        var presetApp = appStates.Get(ToSic.Eav.Constants.PresetIdentity);
     
-        var globSet = ToSic.Eav.Configuration.Global.SystemSettings;
+        var globSet = presetApp.List.First(e => e.Type.Is(ToSic.Eav.Configuration.ConfigurationConstants.Settings.SystemType)); //  ToSic.Eav.Configuration.Global.SystemSettings;
         var dynSet = AsDynamic(globSet);
         Settings.SetDebug(true);
     }

@@ -1,4 +1,4 @@
-@inherits ToSic.Sxc.Dnn.RazorComponent
+@inherits Custom.Dnn.Razor12
 @using DotNetNuke.Framework.JavaScriptLibraries;
 @using DotNetNuke.Framework;
 @using System.Linq;
@@ -13,7 +13,11 @@
   <h2>Resources from Settings.WebResources (list depends on overloads)</h2>
   <ol>
     @foreach(var res in Settings.WebResources.Items) {
-        <li>@res.EntityTitle [@res.Enable] (@res.Html)</li>
+        <li>
+          @res.EntityTitle 
+          [@res.Enable]
+          (@res.Html)
+        </li>
     }
   </ol>
 

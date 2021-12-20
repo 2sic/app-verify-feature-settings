@@ -1,4 +1,4 @@
-@inherits ToSic.Sxc.Dnn.RazorComponent
+@inherits Custom.Hybrid.Razor12
 @using DotNetNuke.Framework.JavaScriptLibraries;
 @using DotNetNuke.Framework;
 @using System.Linq;
@@ -16,12 +16,12 @@
     <h1>Test global settings</h1>
     @{
     
-        var globSet = ToSic.Eav.Configuration.Global.SystemSettings;
-        var dynSet = AsDynamic(globSet);
+        @* var globSet = ToSic.Eav.Configuration.Global.SystemSettings;
+        var dynSet = AsDynamic(globSet); *@
         Settings.SetDebug(true);
     }
     
-    Settings: "@globSet" (should be IEntity) | "@dynSet" (should be IDynamicEntity) | @dynSet.EntityId | @dynSet.GoogleMaps <br>
+    Settings: "@@globSet" (should be IEntity) | "@@dynSet" (should be IDynamicEntity) | @@dynSet.EntityId | @@dynSet.GoogleMaps <br>
 
     
     <hr>
