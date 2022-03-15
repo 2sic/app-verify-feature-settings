@@ -31,19 +31,30 @@
 test
 @{
 
-  var resDump = Resources._Dump(null /* new string[] { "en-us"} */, null,  null);
+  var resDump = Resources._Dump(null, null,  null);
 
 
   var viewGuid = (CmsContext.View as ToSic.Eav.Data.Wrapper<ToSic.Sxc.Blocks.IView>).GetContents().Guid;
   var dynEnt = Settings.GetSource("PresetSystem");
 
-  var fullDump = Settings._Dump(null /* new string[] { "en-us"} */, null,  null);
+  var fullDump = Settings._Dump(null, null,  null);
 
 
   var presetDump = dynEnt._Dump(new string[] { "en-us"}, null,  null);
 }
 
 <h2>Settings Dump</h2>
+<p>
+  Things to expect / verify:
+</p>
+<ol>
+  <li>ASettingInAppOnly</li>
+  <li>ASettingInAppAndSite</li>
+  <li>ASettingInAppAndSite</li>
+  <li>ASettingInSiteOnly</li>
+  <li>ASettingInSiteAndGlobal</li>
+  <li>ASettingInGlobalOnly</li>
+</ol>
 
 <script>
   function getStack(target, part) {
