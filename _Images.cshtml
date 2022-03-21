@@ -3,8 +3,12 @@
 @using DotNetNuke.Framework;
 @using System.Linq;
 @using ToSic.Sxc.Data;
+@using ToSic.Sxc.Services;
 
-@{ Settings.SetDebug(true); }
+@{ 
+  Settings.SetDebug(true);
+  var imgSvc = GetService<IImageService>();
+}
 
 <div @Edit.TagToolbar(Content)>
   <a href="@Link.To()">&lt; back</a>
@@ -16,6 +20,23 @@
 
   <h2>Get Images.News infos (overwritten on App SystemSettings)</h2>
   @ShowImageSettings(Settings.Images.News, "News", 222, 111, 77)
+
+  <h2>News image</h2>
+  @{
+    var itemWithImage = AsDynamic(App.Data["ItemWithImage"].List.First());
+  }
+  @imgSvc.Img(field: itemWithImage.Field("Image") /* "test.jpg" */, settings: "News", factor: "1").ToString()
+  <br>
+
+  @Link.Image(url: "test.jpg", settings: "News", factor: 1)
+  <br>
+  @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.5)
+  <br>
+  @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.3)
+
+  <h2>Content image</h2>
+  @imgSvc.Img(field: itemWithImage.Field("Image"), factor: "1").ToString()
+  <br>
 
 
   <h2>Get Images.Content infos (overwritten on App SystemSettings)</h2>
