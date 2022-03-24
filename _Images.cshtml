@@ -25,7 +25,7 @@
   @{
     var itemWithImage = AsDynamic(App.Data["ItemWithImage"].List.First());
   }
-  @imgSvc.Img(field: itemWithImage.Field("Image") /* "test.jpg" */, settings: "News", factor: "1").ToString()
+  @imgSvc.Img(itemWithImage.Field("Image"), settings: "News", factor: "1").ToString()
   <br>
 
   @Link.Image(url: "test.jpg", settings: "News", factor: 1)
@@ -35,7 +35,7 @@
   @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.3)
 
   <h2>Content image</h2>
-  @imgSvc.Img(field: itemWithImage.Field("Image"), factor: "1").ToString()
+  @imgSvc.Img(itemWithImage.Field("Image"), factor: "1").ToString()
   <br>
 
 
