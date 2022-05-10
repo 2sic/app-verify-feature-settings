@@ -6,8 +6,9 @@
 @using ToSic.Sxc.Services;
 
 @{ 
-  Settings.SetDebug(true);
+  // Settings.SetDebug(true);
   var imgSvc = GetService<IImageService>();
+  imgSvc.Debug = true;
 }
 
 <div @Edit.TagToolbar(Content)>
@@ -26,14 +27,24 @@
     var itemWithImage = AsDynamic(App.Data["ItemWithImage"].List.First());
   }
   @imgSvc.Img(itemWithImage.Field("Image"), settings: "News", factor: "1").ToString()
+  <hr>
+  @imgSvc.Picture(itemWithImage.Field("Image"), settings: "News", factor: "1").ToString()
   <br>
+  <hr>
+  <h2>ImgOrPic - jpg should be pic</h2>
+  @imgSvc.ImgOrPic("test.jpg", settings: "News", factor: "1").ToString()
+  <hr>
+  <h2>ImgOrPic - svg should be img</h2>
+  @imgSvc.ImgOrPic("test.svg", settings: "News", factor: "1").ToString()
 
-  @Link.Image(url: "test.jpg", settings: "News", factor: 1)
-  <br>
-  @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.5)
-  <br>
-  @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.3)
 
+  @Link.Image(url: "test.jpg", settings: "News", factor: 1).ToString()
+  <br>
+  @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.5).ToString()
+  <br>
+  @Link.Image(url: "test.jpg", settings: Settings.Images.News, factor: 0.3).ToString()
+
+<hr>
   <h2>Content image</h2>
   @imgSvc.Img(itemWithImage.Field("Image"), factor: "1").ToString()
   <br>
