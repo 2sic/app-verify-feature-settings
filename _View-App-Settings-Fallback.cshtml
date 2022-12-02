@@ -4,7 +4,9 @@
 @using System.Linq;
 @using ToSic.Sxc.Data;
 
-@{ Settings.SetDebug(true); }
+@{
+  Settings.Debug = true;//.SetDebug(true);
+}
 
 <div @Edit.TagToolbar(Content)>
   <a href="@Link.To()">&lt; back</a>
@@ -18,7 +20,7 @@
     
         @* var globSet = ToSic.Eav.Configuration.Global.SystemSettings;
         var dynSet = AsDynamic(globSet); *@
-        Settings.SetDebug(true);
+        // Settings.SetDebug(true);
     }
     
     Settings: "@@globSet" (should be IEntity) | "@@dynSet" (should be IDynamicEntity) | @@dynSet.EntityId | @@dynSet.GoogleMaps <br>

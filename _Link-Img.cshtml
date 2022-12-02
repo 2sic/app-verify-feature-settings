@@ -10,9 +10,9 @@
   int zeroAsInt;
   var x = Int32.TryParse(null, out zeroAsInt);
 }
-@{ Link.SetDebug(true); }
+@{ Link.Debug = true; /*.SetDebug(true); */ }
 Priority: @Link.Image(url: "test.jpg", settings: Settings.Images.Content, factor: 1)
-@{ Link.SetDebug(false); }
+@{ Link.Debug = false; /*.SetDebug(false); */ }
 
 <div @Edit.TagToolbar(Content)>
   <a href="@Link.To()">&lt; back</a>
@@ -41,9 +41,9 @@ Priority: @Link.Image(url: "test.jpg", settings: Settings.Images.Content, factor
       Factor 1: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 1)
     </li>
     <li>
-      @{ Link.SetDebug(true); }
+      @{ Link.Debug = true; /*.SetDebug(true); */ }
       Factor 2: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 2)
-      @{ Link.SetDebug(false); }
+      @{ Link.Debug = false; /* .SetDebug(false); */ }
     </li>
     <li>
       Factor 3: @Link.Image(url: "test.jpg", settings: imgSettings, factor: 3)

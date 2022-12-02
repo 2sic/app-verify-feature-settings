@@ -4,7 +4,9 @@
 @using System.Linq;
 @using ToSic.Sxc.Data;
 
-@{ Settings.SetDebug(true); }
+@{
+  Settings.Debug = true; //.SetDebug(true);
+}
 
 <div @Edit.TagToolbar(Content)>
   <a href="@Link.To()">&lt; back</a>

@@ -19,13 +19,34 @@
   @ShowImageSettings(Settings.Images.Lightbox, "Lightbox", 2000, 1500, 70)
 
 
-  <h2>Get Images.News infos (overwritten on App SystemSettings)</h2>
+  <h2>Get Images.News infos (overwritten on App SystemSettings) (height empty is ok!)</h2>
   @ShowImageSettings(Settings.Images.News, "News", 222, 111, 77)
 
-  <h2>News image</h2>
   @{
     var itemWithImage = AsDynamic(App.Data["ItemWithImage"].List.First());
   }
+
+  <hr>
+  <h2 @Edit.TagToolbar(itemWithImage)>Test image toolbar</h2>
+  @{
+    var imgField = itemWithImage.Field("Image");
+    var imgWithToolbar = imgSvc.Img(imgField, settings: "News");
+    imgWithToolbar.Img.Attr("test", "test");
+  
+    var toolbarSvc = GetService<IToolbarService>();
+    // var imgConfig = toolbarSvc.Empty().Image(imgField);
+
+    // imgWithToolbar.Img.Attr(Edit.TagToolbar(toolbar: imgConfig));
+  }
+  @imgWithToolbar
+
+  <hr>
+
+  <h2>News image</h2>
+
+
+
+
   @imgSvc.Img(itemWithImage.Field("Image"), settings: "News", factor: "1").ToString()
   <hr>
   @imgSvc.Picture(itemWithImage.Field("Image"), settings: "News", factor: "1").ToString()
@@ -90,13 +111,13 @@
 
 @helper ShowImageSettings(dynamic imgSettings, string expTitle, int expWidth, int expHeight, int expQuality) {
   <ul>
-    <li>Name: @imgSettings.EntityTitle (@expTitle)</li>
-    <li>Width: @imgSettings.Width @ShowNumOk(imgSettings.Width, expWidth)</li>
-    <li>Height: @imgSettings.Height @ShowNumOk(imgSettings.Height, expHeight)</li>
-    <li>Quality: @imgSettings.Quality @ShowNumOk(imgSettings.Quality, expQuality)</li>
+    <li>Name: "@imgSettings.EntityTitle" (@expTitle)</li>
+    <li>Width: "@imgSettings.Width" @ShowNumOk(imgSettings.Width, expWidth)</li>
+    <li>Height: "@imgSettings.Height" @ShowNumOk(imgSettings.Height, expHeight)</li>
+    <li>Quality: "@imgSettings.Quality" @ShowNumOk(imgSettings.Quality, expQuality)</li>
   </ul>
 }
 
 @helper ShowNumOk(dynamic found, int expected) {
-  <text>@((found == expected) ? "✅" : "⚠️ " + expected)  </text>
+  <text>@((found == expected) ? "✅" : "⚠️ expected '" + expected + "'")  </text>
 }
