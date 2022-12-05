@@ -110,6 +110,10 @@
 </div>
 
 @helper ShowImageSettings(dynamic imgSettings, string expTitle, int expWidth, int expHeight, int expQuality) {
+  if (imgSettings == null) { 
+    <h1>Error - imgSettings was null! - unexpected!!!</h1>
+    return;
+  }
   <ul>
     <li>Name: "@imgSettings.EntityTitle" (@expTitle)</li>
     <li>Width: "@imgSettings.Width" @ShowNumOk(imgSettings.Width, expWidth)</li>

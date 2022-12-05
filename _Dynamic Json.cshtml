@@ -1,5 +1,5 @@
-@inherits Custom.Hybrid.Razor12
-@using Newtonsoft.Json
+@inherits Custom.Hybrid.Razor14
+@using ToSic.Eav.Data.PropertyLookup;
 @using ToSic.Sxc.Data;
 
 <div @Edit.TagToolbar(Content)>
@@ -11,7 +11,7 @@
 
   var asDyn = AsDynamic(test);
 
-  var asText = JsonConvert.SerializeObject(asDyn);
+  var asText = Kit.Json.ToJson(asDyn);
 }
   
   first: @asDyn.first </br>
@@ -27,7 +27,8 @@
 
   <h2>Property Dump</h2>
   @{
-    var dump = asDyn._Dump(null /* new string[] { "en-us"} */, "Dynamic",  null);
+    var basicSpecs = new PropReqSpecs(null);
+    var dump = asDyn._Dump(basicSpecs /* new string[] { "en-us"} */, "Dynamic");
 
   }
   <ol>
@@ -54,9 +55,9 @@
 
     var realDynMixin = AsDynamic(mixin);
 
-    var dynMixin = AsDynamic(JsonConvert.SerializeObject(mixin));
+    var dynMixin = AsDynamic(Kit.Json.ToJson(mixin));
     var stack = AsDynamic(asDyn, realDynMixin); // dynMixin);
-    var stackDump = stack._Dump(null, "Something", null);
+    var stackDump = stack._Dump(basicSpecs, "Something");
   }
   <h3>Test new AsDynamic Read operation</h3>
   <ol>
@@ -76,5 +77,5 @@
   </ol>
 
   <h2>Json dump of dynamic Read Object</h2>
-  @JsonConvert.SerializeObject(realDynMixin)
+  @Kit.Json.ToJson(realDynMixin)
 </div>

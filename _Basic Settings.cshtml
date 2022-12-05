@@ -3,6 +3,7 @@
 @using DotNetNuke.Framework;
 @using System.Linq;
 @using ToSic.Sxc.Data;
+@using ToSic.Eav.Data.PropertyLookup;
 
 @{ Settings.Debug = false; }
 
@@ -30,17 +31,17 @@
 
 test
 @{
-
-  var resDump = Resources._Dump(null, null,  null);
+  var basicSpecs = new PropReqSpecs(null);
+  var resDump = Resources._Dump(basicSpecs,  null);
 
 
   var viewGuid = (CmsContext.View as ToSic.Eav.Data.Wrapper<ToSic.Sxc.Blocks.IView>).GetContents().Guid;
   var dynEnt = Settings.GetSource("PresetSystem");
 
-  var fullDump = Settings._Dump(null, null,  null);
+  var fullDump = Settings._Dump(basicSpecs,  null);
 
-
-  var presetDump = dynEnt._Dump(new string[] { "en-us"}, null,  null);
+  var enSpecs = new PropReqSpecs(null, new string[] { "en-us"});
+  var presetDump = dynEnt._Dump(enSpecs, null);
 }
 
 <h2>Settings Dump</h2>

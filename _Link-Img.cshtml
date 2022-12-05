@@ -5,14 +5,14 @@
 @using ToSic.Sxc.Data;
 @using System;
 @{
-  // Settings.SetDebug(true);
+  Settings.Debug = true;
 
   int zeroAsInt;
   var x = Int32.TryParse(null, out zeroAsInt);
 }
-@{ Link.Debug = true; /*.SetDebug(true); */ }
+@{ Link.Debug = true; }
 Priority: @Link.Image(url: "test.jpg", settings: Settings.Images.Content, factor: 1)
-@{ Link.Debug = false; /*.SetDebug(false); */ }
+@{ Link.Debug = false; }
 
 <div @Edit.TagToolbar(Content)>
   <a href="@Link.To()">&lt; back</a>
